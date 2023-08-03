@@ -6,6 +6,7 @@ leftWristY = 0;
 rightWristX = 0;
 rightWristY = 0;
 score = 0;
+score2 = 0;
 status1 = "";
 status2 = "";
 function preload() {
@@ -23,7 +24,7 @@ function setup() {
 function draw() {
     image(video, 0, 0, 400, 400);
     fill("red");
-    if (score >= 0.2) {
+    if (score >= 0) {
         circle(leftWristX, leftWristY, 20);
         circle(rightWristX, rightWristY, 20);
         status1 = som.isPlaying();
@@ -42,6 +43,15 @@ function draw() {
             }
             document.getElementById("MusicName").innerHTML = "Dj Music";
         }
+        if (score2 >= 0){
+            speed = floor(leftWristY / 400);
+            if (status1 == true){
+                som.rate(speed);
+            }
+            if (status2 == true){
+                som2.rate(speed);
+            }
+         }
     }
 }
 function modelLoaded() {
@@ -55,7 +65,8 @@ function gotResults(results) {
         rightWristX = results[0].pose.rightWrist.x;
         rightWristY = results[0].pose.rightWrist.y;
         score = results[0].pose.keypoints[9].score;
-        if (rightWristY > leftWristY) {
+        score2 = results[0].pose.keypoints[7].score;
+        if (rightWristY > 200) {
             music = 1
         } else {
             music = 2
